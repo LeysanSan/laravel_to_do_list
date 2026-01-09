@@ -21,21 +21,22 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|string',
-        ]);
+   $data = $request->validate(
+    [
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'status' => 'required|string',
+    ],
+    [
+        'title.required' => 'Название задачи обязательно.',
+    ]
+);
 
-        Task::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'status' => $request->status,
-        ]);
+Task::create($data);
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Task created successfully!');
+            ->with('success', 'Задача создана!');
     }
 
     public function show(Task $task)
@@ -60,7 +61,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Task updated successfully!');
+            ->with('success', 'Задача обновлена!');
     }
 
     public function destroy(Task $task)
@@ -69,6 +70,6 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.index')
-            ->with('success', 'Task deleted successfully!');
+            ->with('success', 'Задача удалена!');
     }
 }

@@ -1,4 +1,9 @@
 <x-template>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Заполните недостающие поля.</strong>
+        </div>
+    @endif
 
     <h1>Создать Задачу</h1>
 
@@ -7,7 +12,8 @@
 
         <div class="mb-3">
             <label class="form-label">Название</label>
-            <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
+                value="{{ old('title') }}">
             @error('title')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
