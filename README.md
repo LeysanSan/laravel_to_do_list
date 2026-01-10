@@ -1,59 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# To-Do List API (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Проект представляет собой REST API для управления списком задач (To-Do List), реализованный на PHP с использованием Laravel.
 
-## About Laravel
+Дополнительно был реализован простой веб-интерфейс на Blade для демонстрации и удобного ручного тестирования.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##  Функциональность
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### REST API (обязательная часть)
 
-## Learning Laravel
+Реализованы CRUD-операции для задач:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Создание задачи  
+  `POST /api/tasks`
+- Получение списка задач  
+  `GET /api/tasks`
+- Получение одной задачи  
+  `GET /api/tasks/{id}`
+- Обновление задачи  
+  `PUT /api/tasks/{id}`
+- Удаление задачи  
+  `DELETE /api/tasks/{id}`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Формат данных — JSON.
 
-## Laravel Sponsors
+Каждая задача содержит поля:
+- `title` (обязательное)
+- `description` (необязательное)
+- `status` (например: `pending`, `done`)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+### Веб-интерфейс (дополнительно)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Для наглядности и тестирования добавлен простой UI:
 
-## Contributing
+- `/tasks` — список задач
+- `/tasks/create` — создание задачи
+- `/tasks/{id}` — просмотр задачи
+- `/tasks/{id}/edit` — редактирование задачи
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Веб-интерфейс реализован с использованием Blade и Bootstrap.
 
-## Code of Conduct
+REST API и UI логически разделены:
+- `/api/tasks` — API (JSON)
+- `/tasks` — веб-интерфейс (HTML)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Валидация
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Реализована серверная валидация данных:
+- поле `title` обязательно
+- данные не сохраняются при некорректном вводе
 
-## License
+Для API при ошибках валидации возвращается HTTP-статус **422** с JSON-ответом.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+##  База данных
+
+- Используется sqlite
+- Работа с БД реализована через Eloquent ORM
+- Структура таблиц создаётся через миграции
+
+---
+
+## Тестирование API
+
+API тестировалось вручную с помощью **Postman**:
+
+- Проверены все CRUD-операции
+- Проверены ошибки валидации
+- Запросы отправлялись с заголовками:
+  - `Content-Type: application/json`
+  - `Accept: application/json`
+
+---
+
+## Установка и запуск
+
+1. Клонировать репозиторий: git clone <repository-url>
+
+2. Установить зависимости: composer install
+
+3. Создать файл окружения: cp .env.example .env
+
+4. Сгенерировать ключ приложения: php artisan key:generate
+
+5. Настроить подключение к бд в .env
+
+6. Выполнить миграции: php artisan migrate
+
+7. Запустить сервер: php artisan serve
+
+## Использовались:
+
+PHP 8+
+
+Laravel
+
+MySQL
+
+Blade
+
+Bootstrap
+
+Postman (для тестирования API)
+
+## Примечание
+
+Веб-интерфейс добавлен дополнительно и не заменяет REST API, который полностью соответствует требованиям тестового задания.
+
+
