@@ -101,7 +101,7 @@ PHP 8+
 
 Laravel
 
-MySQL
+Sqlite
 
 Blade
 
